@@ -1,12 +1,16 @@
-import { Person } from '../types';
 import React from 'react';
+import { Person } from '../types';
 import { PersonLink } from './PersonLink';
 
 type Props = {
   people: Person[];
+  selectedSlug?: string;
 };
 
-export const PeopleTable: React.FC<Props> = ({ people }) => {
+export const PeopleTable: React.FC<Props> = ({
+  people,
+  selectedSlug,
+}) => {
   return (
     <table
       data-cy="peopleTable"
@@ -25,7 +29,12 @@ export const PeopleTable: React.FC<Props> = ({ people }) => {
 
       <tbody>
         {people.map(person => (
-          <PersonLink person={person} key={person.slug} />
+          <PersonLink
+            person={person}
+            people={people}
+            selectedSlug={selectedSlug}
+            key={person.slug}
+          />
         ))}
       </tbody>
     </table>
