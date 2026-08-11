@@ -3,16 +3,13 @@ import { NavLink } from 'react-router-dom';
 
 export const NavBar: React.FC = () => {
   return (
-    <nav
-      className="navbar is-light"
-      data-cy="Nav"
-    >
+    <nav className="navbar is-light" data-cy="nav">
       <div className="container">
         <div className="navbar-brand">
           <NavLink
             to="/"
             className={({ isActive }) =>
-              `navbar-item ${isActive ? 'is-active' : ''}`
+              `navbar-item ${isActive ? 'has-background-grey-lighter' : ''}`
             }
           >
             Home
@@ -21,7 +18,7 @@ export const NavBar: React.FC = () => {
           <NavLink
             to="/people"
             className={({ isActive }) =>
-              `navbar-item ${isActive ? 'is-active' : ''}`
+              `navbar-item ${isActive ? 'has-background-grey-lighter' : ''}`
             }
           >
             People
