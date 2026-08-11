@@ -1,24 +1,38 @@
-import React from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
-import { NavBar } from './components/NavBar';
-import { HomePage } from './pages/HomePage';
-import { PeoplePage } from './pages/PeoplePage';
-import { NotFoundPage } from './pages/NotFoundPage';
+import { NavLink, Outlet } from 'react-router-dom';
+import cn from 'classnames';
 
-export const App: React.FC = () => (
+import './App.scss';
+
+const getLinkClass = ({ isActive }: { isActive: boolean }) =>
+  cn('navbar-item', {
+    'has-background-grey-lighter': isActive,
+  });
+
+export const App = () => (
   <div data-cy="app">
-    <NavBar />
-    <section className="section">
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/home" element={<Navigate to="/" replace />} />
+    <nav
+      data-cy="nav"
+      className="navbar is-fixed-top has-shadow"
+      role="navigation"
+      aria-label="main navigation"
+    >
+      <div className="container">
+        <div className="navbar-brand">
+          <NavLink to="/" end className={getLinkClass}>
+            Home
+          </NavLink>
 
-        <Route path="/people" element={<PeoplePage />}>
-          <Route path=":slug" element={<PeoplePage />} />
-        </Route>
+          <NavLink to="/people" className={getLinkClass}>
+            People
+          </NavLink>
+        </div>
+      </div>
+    </nav>
 
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
-    </section>
+    <main className="section">
+      <div className="container">
+        <Outlet />
+      </div>
+    </main>
   </div>
 );

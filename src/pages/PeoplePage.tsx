@@ -1,23 +1,34 @@
-import React, { useEffect, useState } from 'react';
-import { getPeople } from '../api';
-import { Person } from '../types';
-import { PeopleTable } from '../components/PeopleTable';
+import { useContext } from 'react';
 import { Loader } from '../components/Loader';
+import { PeopleTable } from '../components/PeopleTable';
+import { PeopleContext } from '../store/PeopleContext';
 
-export const PeoplePage: React.FC = () => {
-  const [people, setPeople] = useState<Person[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    getPeople()
-      .then(setPeople)
-      .finally(() => setLoading(false));
-  }, []);
+export const PeoplePage = () => {
+  const { people, loading, errorMessage } = useContext(PeopleContext);
 
   return (
-    <div className="container">
+    <>
       <h1 className="title">People Page</h1>
-      {loading ? <Loader /> : <PeopleTable people={people} />}
-    </div>
+
+      <div className="block">
+        <div className="box table-container">
+          {loading && <Loader />}
+
+          {!loading && errorMessage && (
+            <p data-cy="peopleLoadingError" className="has-text-danger">
+              Something went wrong
+            </p>
+          )}
+
+          {!loading && !errorMessage && people.length === 0 && (
+            <p data-cy="noPeopleMessage">There are no people on the server</p>
+          )}
+
+          {!loading && !errorMessage && people.length > 0 && (
+            <PeopleTable people={people} />
+          )}
+        </div>
+      </div>
+    </>
   );
 };
